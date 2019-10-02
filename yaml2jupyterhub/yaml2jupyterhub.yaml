@@ -1,0 +1,14 @@
+cloudprovider: aws
+name: yaml2jupyterhub-cluster
+region: us-east-2
+general-pool:
+  instance-types: m5.large
+user-pool:
+  instance-types: m5.large
+  min-size: 0
+  max-sze: 10
+cpu-pool:
+  instance-types: m5.large
+  min-size: 0
+  max-sze: 10
+helm-startup-wait: 15

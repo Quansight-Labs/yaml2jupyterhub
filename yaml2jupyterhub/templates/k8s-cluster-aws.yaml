@@ -1,0 +1,35 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: {{ name }}
+  region: {{ region }}
+
+nodeGroups:
+  - name: general-pool
+    instanceType: {{ general_pool_instance_types }}
+    desiredCapacity: 2
+  - name: user-pool
+    instanceType: {{ user_pool_instance_types }}
+    minSize: {{ user_pool_min_size }}
+    desiredCapacity: 1
+    maxSize: {{ user_pool_max_size }}
+    labels:
+      "hub.jupyter.org/node-purpose": "user"
+    taints:
+      "hub.jupyter.org_dedicated": "user:NoSchedule"
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+  - name: cpu-worker-pool
+    instanceType: {{ cpu_pool_instance_types }}
+    minSize: {{ cpu_pool_min_size }}
+    desiredCapacity: 2
+    maxSize: {{ cpu_pool_max_size }}
+    labels:
+      "hub.jupyter.org/node-purpose": "cpu-worker"
+    taints:
+      "hub.jupyter.org_dedicated": "cpu-worker:NoSchedule"
+    iam:
+      withAddonPolicies:
+        autoScaler: true

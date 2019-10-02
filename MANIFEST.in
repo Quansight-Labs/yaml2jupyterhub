@@ -1,0 +1,6 @@
+recursive-include yaml2jupyterhub *.yaml
+
+include README.md
+include setup.py
+include MANIFEST.in
+include LICENSE
