@@ -1,0 +1,6 @@
+config:
+  LEGO_EMAIL: {{ lego_email }}
+  LEGO_URL: {{ lego_url }}
+
+rbac:
+  create: true

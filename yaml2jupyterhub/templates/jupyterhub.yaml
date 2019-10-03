@@ -1,0 +1,71 @@
+# setup ssl certificates for domain
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - {{ ingress_host }}
+  tls:
+   - hosts:
+      - {{ ingress_host }}
+     secretName: kubelego-tls-jupyterhub
+
+
+hub:
+  baseUrl: "/"
+
+
+proxy:
+  secretToken: {{ proxy_token }}
+
+
+# check every 10 minutes for sessions that have
+# been inactive for 10 minutes
+cull:
+  enabled: true
+  timeout: 600
+  every: 600
+
+# schedule pods on flexible node
+# allocation
+scheduling:
+  userScheduler:
+    enabled: true
+  podPriority:
+    enabled: true
+  userPlaceholder:
+    enabled: false
+    replicas: 1
+  userPods:
+    nodeAffinity:
+      matchNodePurpose: require
+
+auth:
+  type: github
+  github:
+    clientId: {{ auth_client_id }}
+    clientSecret: {{ auth_client_secret }}
+    callbackUrl: {{ auth_callback_url }}
+  admin:
+    access: true
+    users:
+    {% for user in auth_admins %}  - {{ user }}
+    {% endfor %}
+  whitelist:
+    users:
+    {% for user in auth_users %}  - {{ user }}
+    {% endfor %}
+
+singleuser:
+  defaultUrl: "/lab"
+  image:
+    name: {{ jupyter_user_docker_image }}
+    tag: 1
+  serviceAccountName: jupyterlab-sa
+  cpu:
+    limit: {{ jupyter_user_cpu_limit }}
+    guarantee: {{ jupyter_user_cpu_guarantee }}
+  memory:
+    limit: {{ jupyter_user_memory_limit }}
+    guarantee: {{ jupyter_user_memory_guarantee }}

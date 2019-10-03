@@ -1,0 +1,15 @@
+name: yaml2jupyterhub-dev
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7.*
+  - click
+  - jinja2
+  - pyyaml
+  - kubernetes
+  - kubernetes-helm
+  - awscli
+  # Development requirements
+  - pytest
+  - flake8
+  - black

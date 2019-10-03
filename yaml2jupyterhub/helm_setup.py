@@ -35,6 +35,11 @@ def helm_setup_steps(config):
     helm_setup["secure_tiller"] = shlex.split(secure_tiller)
 
     # 5. Wait for tiller to start
-    helm_setup["wait_tiller_online"] = ["sleep", config["helm-startup-wait"]]
+    helm_setup["wait_tiller_online"] = ["sleep", config["helm_startup_wait"]]
 
     return helm_setup.items()
+
+
+def setup_helm(config, env):
+    for name, cmd in helm_setup_steps(config):
+        # TODO: Run subprocess.run(cmd) here...

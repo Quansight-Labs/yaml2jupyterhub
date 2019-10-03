@@ -1,14 +1,32 @@
 cloudprovider: aws
 name: yaml2jupyterhub-cluster
 region: us-east-2
-general-pool:
-  instance-types: m5.large
-user-pool:
-  instance-types: m5.large
-  min-size: 0
-  max-sze: 10
-cpu-pool:
-  instance-types: m5.large
-  min-size: 0
-  max-sze: 10
-helm-startup-wait: 15
+general_pool:
+  instance_types: m5.large
+user_pool:
+  instance_types: m5.large
+  min_size: 1
+  max_size: 3
+cpu_pool:
+  instance_types: m5.large
+  min_size: 0
+  max_size: 10
+helm_startup_wait: 15
+auth:
+  client_id:
+  client_secret:
+  callback_url:
+  users:
+    # - user1
+    # - user2
+  admins:
+    # - admin1
+    # - admin2
+jupyter_user:
+  docker_image: daskdev/dask-notebook
+  cpu:
+    limit: 1.0
+    guarantee: 0.5
+  memory:
+    limit: 2G
+    guarantee: 1G
